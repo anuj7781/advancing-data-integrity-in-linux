@@ -6,13 +6,12 @@ rw=$3
 sze=$4
 njob=$5
 depth=$6
-kernel=$7
-size=$8
-io_size=$9
-run=${10}
+size=$7
+io_size=$8
+run=$9
 
 #usage
-#./write_reduction.sh [device] [bs] [rw] [filesize] [njobs] [depth] [btrfs_kernel_loadable_module_path] [size] [io_size] [run]
+#./write_reduction.sh [device] [bs] [rw] [filesize] [njobs] [depth] [run]
 
 if [[ $# -ne 10 ]]; then
     echo "Illegal number of parameters"
@@ -45,8 +44,8 @@ compute()
         echo "writes before running fio" $org_writes
 
         #iteration 1 write to whole device
-        echo "fio --name=btrfswrite_a --ioengine=io_uring --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting" > $DIR/fio_command_${ot}_a
-        fio --name=btrfswrite_a --ioengine=io_uring --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting
+        echo "fio --name=btrfswrite_a --ioengine=io_uring --direct=1 --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting" > $DIR/fio_command_${ot}_a
+        fio --name=btrfswrite_a --ioengine=io_uring --direct=1 --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting
 
         umount /mnt
 
