@@ -20,7 +20,7 @@ Each subfolder contains a dedicated `README.md` with usage, parameters, and expe
 
 ## Tested environment (recommended)
 - OS: Ubuntu (tested on: 24.04.3 LTS)
-- Storage: NVMe SSD recommended  with PI support
+- Storage: NVMe SSD with PI support
 
 ## Build & install the artifact kernel
 
