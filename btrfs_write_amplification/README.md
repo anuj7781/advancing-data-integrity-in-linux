@@ -97,3 +97,5 @@ dmesg_* — kernel logs captured after the run
 writes_before — tree-wise write counters before fio (from /sys/fs/btrfs/features/tree_writes)
 
 writes_after — tree-wise write counters after fio (from /sys/fs/btrfs/features/tree_writes)
+
+output_* — summary line: `<total device writes>` / `<GiB>` / `<extra writes>` / `<extra GiB>`
