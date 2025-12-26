@@ -6,13 +6,12 @@ rw=$3
 sze=$4
 njob=$5
 depth=$6
-kernel=$7
-size=$8
-io_size=$9
-run=${10}
+size=$7
+io_size=$8
+run=$9
 
 #usage
-#./write_reduction.sh [device] [bs] [rw] [filesize] [njobs] [depth] [btrfs_kernel_loadable_module_path] [size] [io_size] [run]
+#./write_reduction.sh [device] [bs] [rw] [filesize] [njobs] [depth] [size] [io_size] [run]
 
 if [[ $# -ne 10 ]]; then
     echo "Illegal number of parameters"
