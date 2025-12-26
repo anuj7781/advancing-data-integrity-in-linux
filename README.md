@@ -5,6 +5,14 @@ Paper page: https://www.usenix.org/conference/fast26/presentation/gupta
 
 ## Repository contents
 
+### Upstream patch series
+
+Related upstream contributions referenced by this work:
+
+- Flexible PI / flexible block integrity: https://lore.kernel.org/all/20240201130126.211402-1-joshi.k@samsung.com/
+- io_uring PI interface: https://lore.kernel.org/all/20241128112240.8867-1-anuj20.g@samsung.com/
+- fio support for io_uring PI interface: https://lore.kernel.org/all/20250725175808.2632-1-vincent.fu@samsung.com/
+
 ### Kernel branches (FS-PI enabled)
 Use the following kernel branches to reproduce the results:
 
