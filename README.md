@@ -12,9 +12,10 @@ Use the following kernel branches to reproduce the results:
 - **xfs-pi kernel**: https://github.com/SamsungDS/linux/tree/feat/pi/fast/xfs_v1
 
 ### Benchmarks / scripts
-- `btrfs/write_amp/` — Btrfs buffered/direct-I/O write amplification
-- `btrfs/cpu_util/` — Btrfs direct-I/O CPU utilization
-- `btrfs/perf/` — Btrfs buffered/direct-I/O performance
+- `btrfs_write_amplification/` - Btrfs buffered/direct-I/O write amplification
+- `btrfs_cpu_util/` - Btrfs direct-I/O CPU utilization
+- `btrfs_perf/` - Btrfs buffered/direct-I/O performance
+- `xfs_perf/` - XFS buffered/direct-I/O performance
 
 Each subfolder contains a dedicated `README.md` with usage, parameters, and expected outputs.
 
