@@ -48,6 +48,10 @@ compute()
                 mount -t btrfs ${dev} /mnt
         fi
 
+	sync
+	echo 3 > /proc/sys/vm/drop_caches
+	sync
+
         iostat -k -d ${dev} > $DIR/x1
         awk 'NR>=4 {print $7}' $DIR/x1 > $DIR/y1
         head -n -2 $DIR/y1 > $DIR/z1

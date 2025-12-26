@@ -31,13 +31,16 @@ compute()
 	dmesg -C
 
         if [ ${mo} == "nodatasum" ]; then
-                nvme format ${dev} -l 1 -i 3 -f
+                nvme format ${dev} -l 1 -i 0 -f
         else
                 nvme format ${dev} -l 0 -f
         fi
 
-        echo "Doing mkfs now"
         mkfs.btrfs -f ${dev} > $DIR/mkfs_${ot}
+
+        rmmod btrfs
+        insmod $kernel
+	cat /sys/fs/btrfs/features/tree_writes > $DIR/writes_before
 
         if [ ${mo} == "nodatasum" ]; then
                 mount -t btrfs ${dev} /mnt -o nodatasum
@@ -56,10 +59,12 @@ compute()
         echo "writes before running fio" $org_writes
 
         #iteration 1 write to whole device
-        echo "fio --name=btrfswrite_a --ioengine=io_uring --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 --direct=1 -output=$DIR/fio_out_${ot}_a --group_reporting" > $DIR/fio_command_${ot}_a
-        fio --name=btrfswrite_a --ioengine=io_uring --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 --direct=1 -output=$DIR/fio_out_${ot}_a --group_reporting
+        echo "fio --name=btrfswrite_a --ioengine=io_uring --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting" > $DIR/fio_command_${ot}_a
+        fio --name=btrfswrite_a --ioengine=io_uring --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting
 
         umount /mnt
+	cat /sys/fs/btrfs/features/tree_writes > $DIR/writes_after
+        rmmod btrfs
         dmesg > $DIR/dmesg_${ot}
         dmesg -C
 
@@ -79,6 +84,8 @@ compute()
         echo "total writes in kb/gb with $mo" $total_writes_on_device $twgb
         echo "extra writes in kb/gb with $mo" $ew $ewgb
         echo "${total_writes_on_device} / ${twgb} / ${ew} / ${ewgb}"  >> $DIR/output_${ot}
+
+        insmod $kernel
 }
 
 echo $DIR created

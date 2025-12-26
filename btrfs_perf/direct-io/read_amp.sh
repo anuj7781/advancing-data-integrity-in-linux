@@ -34,14 +34,16 @@ compute()
                 mount -t btrfs ${dev} /mnt
         fi
 
+	sync
+	echo 3 > /proc/sys/vm/drop_caches
+	sync
+
         iostat -k -d ${dev} > $DIR/x1
         awk 'NR>=4 {print $7}' $DIR/x1 > $DIR/y1
         head -n -2 $DIR/y1 > $DIR/z1
         org_writes=$(cat $DIR/z1)
         echo "writes before running fio" $org_writes
 
-	echo "drop caches before running the workload"
-	echo 3 > /proc/sys/vm/drop_caches
         #iteration 1 write to whole device
         echo "fio --name=btrfswrite_a --ioengine=io_uring --direct=1 --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting" > $DIR/fio_command_${ot}_a
         fio --name=btrfswrite_a --ioengine=io_uring --direct=1 --directory=/mnt --blocksize=${bs} --readwrite=${rw} --filesize=${sze}G --size=${size}G --io_size=${io_size}G --numjobs=${njob} --iodepth=${depth} --randseed=1 -output=$DIR/fio_out_${ot}_a --group_reporting
