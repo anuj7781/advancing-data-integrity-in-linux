@@ -5,10 +5,10 @@ This directory contains the scripts used to collect CPU utilization numbers for 
 ## Folder structure
 
 - `write_reduction.sh`
-  - Used for **direct I/O** `randwrite` and `seqwrite` CPU utilization.
+  - Used for **direct I/O** `randwrite` and `write` CPU utilization.
   - Formats + mkfs the device, mounts, runs fio, and records CPU utilization via `sar`.
 - `read.sh`
-  - Used for **direct I/O** `randread` and `seqread` CPU utilization.
+  - Used for **direct I/O** `randread` and `read` CPU utilization.
   - **Does NOT format or mkfs**. It mounts an existing Btrfs filesystem on the device and runs the read workload while collecting CPU utilization via `sar`.
 
 ## IMPORTANT (FS-PI / btrfs-pi mode)
@@ -60,7 +60,7 @@ If your device advertises different LBA formats, you must adjust the `nvme forma
 
 2. bs: block size (example: 4k)
 
-3. rw: fio pattern (example: randwrite / seqwrite / randread / seqread)
+3. rw: fio pattern (example: randwrite / write / randread / read)
 
 4. filesize: fio --filesize in GiB (script appends G)
 
@@ -94,7 +94,7 @@ Adjust this value based on your base-case result and matching methodology.
 
 ## Example commands
 
-### Write CPU-util (direct I/O) — randwrite/seqwrite
+### Write CPU-util (direct I/O) — randwrite/write
 Base run
 ```bash
 sudo ./write_reduction.sh /dev/nvme0n1 4k randwrite 10 24 128 10 10 base
@@ -104,7 +104,7 @@ FS-PI run (optionally enable --rate_iops inside the script):
 sudo ./write_reduction.sh /dev/nvme0n1 4k randwrite 10 24 128 10 10 nodatasum
 ```
 
-### Read CPU-util (direct I/O) — randread/seqread
+### Read CPU-util (direct I/O) — randread/read
 Prerequisite: the device must already contain a Btrfs filesystem populated with files (commonly created by running the write_reduction.sh workload first).
 Base run
 ```bash
