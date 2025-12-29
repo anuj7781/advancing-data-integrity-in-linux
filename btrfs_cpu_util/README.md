@@ -56,23 +56,23 @@ If your device advertises different LBA formats, you must adjust the `nvme forma
 
 ## Parameters
 
-device: NVMe namespace/block device (example: /dev/nvme0n1)
+1. device: NVMe namespace/block device (example: /dev/nvme0n1)
 
-bs: block size (example: 4k)
+2. bs: block size (example: 4k)
 
-rw: fio pattern (example: randwrite / seqwrite / randread / seqread)
+3. rw: fio pattern (example: randwrite / seqwrite / randread / seqread)
 
-filesize: fio --filesize in GiB (script appends G)
+4. filesize: fio --filesize in GiB (script appends G)
 
-njobs: fio --numjobs
+5. njobs: fio --numjobs
 
-depth: fio --iodepth
+6. depth: fio --iodepth
 
-size: fio --size in GiB (script appends G)
+7. size: fio --size in GiB (script appends G)
 
-io_size: fio --io_size in GiB (script appends G)
+8. io_size: fio --io_size in GiB (script appends G)
 
-run: either base or nodatasum
+9. run: either base or nodatasum
 
 nodatasum mounts Btrfs with -o nodatasum and uses a different NVMe LBA format than base (see NVMe format note above).
 
